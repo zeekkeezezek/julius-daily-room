@@ -27,13 +27,21 @@ Chrome Headless Shellの専用の使い捨てブラウザ環境で確認した�
 - 東京 asia-northeast1 のFirestore作成と同梱ルールの公開。
 - Rules Playgroundで本人UIDの読み取り許可、未ログインと別UIDの読み取り拒否。実データの書き込みは行っていない。
 
-## 接続後に確認が必要
+## 公開版の確認
 
-- アプリでの実際のGoogleログインとFirestore保存、および書き込み時のルール評価。
+- 専用GitHubリポジトリとGitHub Pagesへの公開。公開処理で9件のテストとビルドが成功。
+- 公開URLでアイコンとGoogleログイン画面の表示。
+- 実際のGoogleログイン、設定画面のログイン中表示とFirestore読み取り完了後の「保存済み」。
+- 実際の記録へのテスト書き込みは行っていない。
+- FirebaseのGoogleログイン承認済みドメインへ zeekkeezezek.github.io を登録。
+- FirebaseのNode用依存部品 @grpc/grpc-js を修正版の範囲へ更新し、npmの脆弱性報告が0件になった。
+
+## 君の実際の記録と実機で確認が必要
+
+- 君の実際の記録のFirestore保存と、書き込み時のルール評価。
 - 本物のPCとスマホ間の同期、実ネットワーク切断・復帰。
 - iPhone／Android実機でのスクロール、指操作、ポップアップログイン。
 - 実機のホーム画面へのインストールと起動。
-- GitHub上のリポジトリ作成、Pages公開と公開URLの確認。
 
 保存競合の自動テストはトランザクション先を模擬した検証であり、実際のFirebase上での結果とは区別する。
 

@@ -2,7 +2,11 @@
 
 一行日記と24時間のタイムライン。今日を、少しだけ残す。
 
-## PCで開く
+## 公開版を開く
+
+[DAILY ROOM](https://zeekkeezezek.github.io/julius-daily-room/) をPCとスマホから開き、同じGoogleアカウントでログインする。フォルダやNode.jsは公開版の利用には不要だ。
+
+## PCでローカル版を開く
 
 `Start DAILY ROOM.cmd` をダブルクリックするとブラウザで開く。Node.jsが必要だ。君のPCには制作時点でNode.jsがあった。最初の画面で「Googleでログイン」を選ぶ。
 
@@ -28,7 +32,7 @@ PC用のアドレスは `http://localhost:43127/daily-room/`。Googleログイ�
 
 専用Firebase `julius-daily-room` のWeb設定を反映済み。Google認証は有効。Firestoreは東京（asia-northeast1）、Standard editionで作成し、同梱の本人UID限定ルールを公開済み。Rules Playgroundで本人の読み取り許可、未ログインと別UIDの読み取り拒否を確認した。
 
-アプリでの実際のGoogleログイン・Firestoreへの保存・PC／スマホ間同期はまだ未確認。GitHub Pagesへも未公開。現在の設定と残りの手順は [SETUP.md](SETUP.md) にまとめた。
+GitHub Pagesへ公開済み。公開URLで実際のGoogleログインとFirestoreの読み取り接続を確認した。実際の記録の書き込み・PC／スマホ間同期はまだ未確認。現在の設定と残りの手順は [SETUP.md](SETUP.md) にまとめた。
 
 日付ごとに `dailyRoom/{uid}/days/{YYYY-MM-DD}` を保存する。Firestoreの永続オフラインキャッシュに加え、UID別の端末保存と送信待ちリストを持つ。オフラインでは端末へ保存し、オンラインへ戻って全記録の取得を確認した後、トランザクションで日付のrevisionを確認して同期する。
 
