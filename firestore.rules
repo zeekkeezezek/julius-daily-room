@@ -1,0 +1,30 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function owner(userId) {
+      return request.auth != null && request.auth.uid == userId;
+    }
+    function validDay(dayId) {
+      let d = request.resource.data;
+      return dayId.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+        && d.keys().hasOnly(['date','line','blocks','revision','createdAt','updatedAt'])
+        && d.keys().hasAll(['date','line','blocks','revision','createdAt','updatedAt'])
+        && d.date == dayId && d.line is string && d.line.size() <= 200
+        && d.blocks is list && d.blocks.size() <= 500
+        && d.revision is int && d.revision > 0
+        && d.updatedAt == request.time;
+    }
+    match /dailyRoom/{userId}/days/{dayId} {
+      allow read: if owner(userId);
+      allow create: if owner(userId) && validDay(dayId)
+        && request.resource.data.revision == 1
+        && request.resource.data.createdAt == request.time;
+      allow update: if owner(userId) && validDay(dayId)
+        && request.resource.data.revision == resource.data.revision + 1
+        && request.resource.data.createdAt == resource.data.createdAt;
+      // 日付document自体は削除しない。活動の削除は日付内の更新として扱う。
+      allow delete: if false;
+    }
+    match /{document=**} { allow read, write: if false; }
+  }
+}
