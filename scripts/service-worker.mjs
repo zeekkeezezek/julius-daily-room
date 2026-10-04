@@ -6,7 +6,7 @@ const assets=walk('dist').map(p=>'./'+path.relative('dist',p).replaceAll('\\','/
 const hash=createHash('sha256').update(assets.map(p=>fs.readFileSync(path.join('dist',p))).join('')).digest('hex').slice(0,12);
 const source=`const CACHE='daily-room-${hash}';
 const ASSETS=${JSON.stringify(assets)};
-self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS))));
+self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('daily-room-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',event=>{
   const url=new URL(event.request.url),scope=new URL(self.registration.scope);
